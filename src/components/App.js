@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import { getCustomerList } from '../../src/customers.js';
-import  { createCustomer , getCustomer , updateCustomer, deleteCustomer}   from '../../src/customers.js';
+
+import  { getCustomerList, createCustomer , getCustomer , updateCustomer, deleteCustomer}   from '../customers.js';
 import Header from './Header/Header';
 import List from './List/List';
 import Workspace from './Workspace/Workspace';
@@ -20,6 +20,7 @@ class App extends Component {
   this.createCustomer = this.createCustomer.bind(this)
   this.selectCustomer = this.selectCustomer.bind(this);
   this.removeCustomer = this.removeCustomer.bind(this);
+  
   }
   componentDidMount() {
     getCustomerList().then(list=>{
@@ -49,6 +50,7 @@ class App extends Component {
     .then(response=> 
       this.setState({currentCustomer: response, initialLoad: false}))
   }
+
   saveEdit(id, obj){
     updateCustomer(id, obj).then(updateCustomer=> 
       getCustomerList().then(list=> 
@@ -57,8 +59,16 @@ class App extends Component {
            currentCustomer : updateCustomer}))
   )
   }
-  removeCustomer(id){
-    deleteCustomer(id);
+  removeCustomer(id) {
+    deleteCustomer(id).then(deletedCustomer =>{
+      getCustomerList().then(list =>{
+        this.setState({
+          customerList: list,
+          currentCustomer: null,
+          initialLoad: true
+        })
+      })
+    })
   }
   render() {
     return (

@@ -16,7 +16,7 @@ export default class RemoveCustomer extends Component {
     this.setState({ showConfirm: !this.state.showConfirm });
   }
   removeCustomer(){
-    this.props.deleteCustomer(this.props.id)
+    this.props.removeCustomer(this.props.id)
   }
 
   render() {
